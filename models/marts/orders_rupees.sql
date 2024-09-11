@@ -2,7 +2,7 @@ with
 
 orders as (
 
-    select * from {{ ref('stg_orders_rupees') }}
+    select * from {{ ref('stg_orders') }}
 
 ),
 
@@ -42,15 +42,20 @@ order_items_summary as (
 compute_booleans as (
 
     select
-        orders.*,
-
-        order_items_summary.order_cost,
-        order_items_summary.order_items_subtotal,
+        orders.order_id,
+        orders.location_id,
+        orders.customer_id,
+        orders.ordered_at,
+        {{ dollars_to_inr('orders.subtotal') }} as subtotal,
+        {{ dollars_to_inr('orders.tax_paid') }} as tax_paid,
+        {{ dollars_to_inr('orders.order_total') }} as order_total,
+        {{dollars_to_inr('order_items_summary.order_cost')}} as order_cost,
         order_items_summary.count_food_items,
         order_items_summary.count_drink_items,
         order_items_summary.count_order_items,
         order_items_summary.count_food_items > 0 as is_food_order,
-        order_items_summary.count_drink_items > 0 as is_drink_order
+        order_items_summary.count_drink_items > 0 as is_drink_order,
+        'INR' as currency
 
     from orders
 
