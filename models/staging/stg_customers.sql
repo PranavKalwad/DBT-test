@@ -1,11 +1,8 @@
-with
-
-source as (
+with source as (
 
     select * from {{ source('ecom', 'raw_customers') }}
 
 ),
-
 renamed as (
 
     select
@@ -19,5 +16,4 @@ renamed as (
     from source
 
 )
-
 select * from renamed

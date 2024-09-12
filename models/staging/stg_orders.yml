@@ -4,6 +4,10 @@ models:
     data_tests:
       - dbt_utils.expression_is_true:
           expression: "order_total - tax_paid = subtotal"
+      - dbt_constraints.foreign_key:
+          fk_column_name: customer_id
+          pk_table_name: ref('stg_customers')
+          pk_column_name: customer_id
     columns:
       - name: order_id
         description: The unique key for each order.
