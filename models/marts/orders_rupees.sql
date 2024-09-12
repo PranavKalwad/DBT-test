@@ -1,3 +1,10 @@
+{{
+    config(
+        schema='public',
+        materialized='table'  
+    )
+}}
+
 with
 
 orders as (
