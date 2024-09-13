@@ -22,6 +22,11 @@ clean-targets:
   - "dbt_packages"
 
 vars:
+  dbt_project_evaluator:
+      documentation_coverage_target: 10
+      test_coverage_target: 10
+      primary_key_test_macros: [["dbt_constraints.test_primary_key"]]
+      models_fanout_threshold: 10
   "dbt_date:time_zone": "America/Los_Angeles"
 
 seeds:
@@ -34,3 +39,15 @@ models:
       +materialized: view
     marts:
       +materialized: table
+
+  dbt_project_evaluator:
+    marts:
+      tests:
+        +enabled: false
+      structure:
+        fct_model_naming_conventions:
+          +enabled: false
+      documentation:
+        fct_undocumented_models:
+          +enabled: false
+      
